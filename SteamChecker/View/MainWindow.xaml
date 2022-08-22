@@ -1,0 +1,33 @@
+﻿<Window x:Class="SteamChecker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SteamChecker" xmlns:model="clr-namespace:SteamChecker.Model" d:DataContext="{d:DesignInstance Type=model:Steam}"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ItemsControl ItemsSource="{Binding Users}" Margin="10">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Background="#1e1e1e" Margin="0,5,0,0">
+                            <Label Foreground="White" Content="{Binding PersonaName}"></Label>
+                            <StackPanel Margin="10,0,0,0">
+                                <Label Foreground="White" Content="{Binding AccountName}"></Label>
+                                <Label Foreground="White" Content="{Binding Timestamp }"></Label>
+                                <Label Foreground="White" Content="{Binding Timestamp }"></Label>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Window>
