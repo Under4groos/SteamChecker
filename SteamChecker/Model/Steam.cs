@@ -16,6 +16,7 @@ namespace SteamChecker.Model
     public class Steam : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        SteamWebApi steamWebApi = new SteamWebApi();
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             if (PropertyChanged != null)
@@ -49,7 +50,7 @@ namespace SteamChecker.Model
              RegistryKey currentUserKey = Registry.CurrentUser;
             RegistryKey steam = currentUserKey.OpenSubKey("Software\\Valve\\Steam");
             path_ = Path.Combine((string)steam.GetValue("SteamPath"), "config\\loginusers.vdf");
-            path_ = @"C:\Users\Maks\Downloads\loginusers.vdf";
+            //path_ = @"C:\Users\Maks\Downloads\loginusers.vdf";
             if (!File.Exists(path_))
                 return;
             string data_ = File.ReadAllText(path_);
@@ -78,9 +79,18 @@ namespace SteamChecker.Model
             strD_g_data_ = Regex.Replace(strD_g_data_, "\\\",[\\W]+?}", "\"\n}");
 
             Dictionary<string, User> PairList  = JsonConvert.DeserializeObject<Dictionary<string, User>>(strD_g_data_ );
+
+            Player p = null;
             foreach (var item in PairList.Keys)
             {
                 PairList[item].SteamID = item.Replace("_", "");
+
+                p = steamWebApi.GetInformation(PairList[item].SteamID);
+                if(p != null && PairList[item].SteamID != null)
+                    PairList[item].UserURL = p.avatarmedium;
+                PairList[item].Timestamp = new DateTime(
+                    1970, 1, 1, 0, 0, 0
+                    ).AddSeconds(double.Parse(PairList[item].Timestamp)).ToString() ;
             }
             foreach (var item in PairList.Values)
             {

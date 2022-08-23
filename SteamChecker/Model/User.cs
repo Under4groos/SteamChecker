@@ -3,6 +3,7 @@
     public class User
     {
         public string SteamID { get; set; }
+        public string UserURL { get; set; }
         public string AccountName { get; set; }
         public string PersonaName { get; set; }
         public string RememberPassword { get; set; }
